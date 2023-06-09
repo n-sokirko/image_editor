@@ -13,6 +13,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QStyleFactory
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QStyleFactory, QFileDialog, QHBoxLayout
+from buttons_functionality.Upload_button import upload_image_clicked
+from sliders_functionality.Contrast_slider import adjust_contrast
 
 
 
@@ -25,13 +27,21 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
 
 
-        self.image_layout = QHBoxLayout()
+        self.image_layout = QtWidgets.QHBoxLayout()
         self.image_label = QtWidgets.QLabel(self.centralwidget)
         self.image_label.setObjectName("image_label")
         self.image_label.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)  
         self.image_label.setAlignment(QtCore.Qt.AlignCenter)  
         self.image_label.setMaximumSize(800, 800)
         self.image_layout.addWidget(self.image_label)        
+
+        self.original_image_label = QtWidgets.QLabel(self.centralwidget)
+        self.original_image_label.setObjectName("original_image_label")
+        self.original_image_label.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)  
+        self.original_image_label.setAlignment(QtCore.Qt.AlignCenter)  
+        self.original_image_label.setMaximumSize(800, 800)
+        self.image_layout.addWidget(self.original_image_label)  
+             
 
         self.Brightness = QtWidgets.QSlider(self.centralwidget)
         self.Brightness.setGeometry(QtCore.QRect(30, 240, 191, 22))
@@ -56,6 +66,7 @@ class Ui_MainWindow(object):
         self.Contract.setOrientation(QtCore.Qt.Horizontal)
         self.Contract.setTickPosition(QtWidgets.QSlider.TicksBelow)
         self.Contract.setObjectName("Contract")
+        self.Contract.valueChanged.connect(self.adjust_contrast)
 
         self.Blur = QtWidgets.QSlider(self.centralwidget)
         self.Blur.setGeometry(QtCore.QRect(30, 360, 191, 22))
@@ -63,6 +74,9 @@ class Ui_MainWindow(object):
         self.Blur.setOrientation(QtCore.Qt.Horizontal)
         self.Blur.setTickPosition(QtWidgets.QSlider.TicksBelow)
         self.Blur.setObjectName("Blur")
+        
+
+        
 
         self.Undo_butt = QtWidgets.QPushButton(self.centralwidget)
         self.Undo_butt.setGeometry(QtCore.QRect(20, 190, 93, 28))
@@ -95,13 +109,39 @@ class Ui_MainWindow(object):
         self.Upload_butt.setObjectName("Upload_butt")
         self.Upload_butt.clicked.connect(self.upload_image_clicked)
 
+        self.Brightness_label = QtWidgets.QLabel("Brightness", self.centralwidget)
+        self.Blacknes_label = QtWidgets.QLabel("Blacknes", self.centralwidget)
+        self.Contract_label = QtWidgets.QLabel("Contract", self.centralwidget)
+        self.Blur_label = QtWidgets.QLabel("Blur", self.centralwidget)
         
+
+        self.buttons_layout = QHBoxLayout()
+        
+        self.buttons_layout.addWidget(self.Upload_butt)
+        self.buttons_layout.addWidget(self.Undo_butt)
+        self.buttons_layout.addWidget(self.Save_butt)
+        self.buttons_layout.addWidget(self.Saveas_butt)
+        self.buttons_layout.addWidget(self.Remove_butt)
+        self.buttons_layout.addWidget(self.Blacknes_label)
+        self.buttons_layout.addWidget(self.Blacknes)
+        self.buttons_layout.addWidget(self.Brightness_label)
+        self.buttons_layout.addWidget(self.Brightness)
+        self.buttons_layout.addWidget(self.Contract_label)
+        self.buttons_layout.addWidget(self.Contract)
+        self.buttons_layout.addWidget(self.Blur_label)
+        self.buttons_layout.addWidget(self.Blur)
+
+
+
+
         self.main_layout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.main_layout.addLayout(self.buttons_layout)
         self.main_layout.addLayout(self.image_layout)
-
-        MainWindow.setCentralWidget(self.centralwidget)
+        
+       
 
         
+        MainWindow.setCentralWidget(self.centralwidget)
         
         slider_color = QtGui.QColor(0, 255, 204)
         slider_style = "QSlider::handle:horizontal { background-color: %s; }" % slider_color.name()
@@ -112,16 +152,15 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        
-    def upload_image_clicked(self):
-        file_dialog = QFileDialog()
-        file_dialog.setNameFilter("Images (*.png *.xpm *.jpg *.bmp)")
-        file_dialog.setFileMode(QFileDialog.ExistingFile)
-        if file_dialog.exec_():
-            selected_file = file_dialog.selectedFiles()[0]
-            pixmap = QtGui.QPixmap(selected_file)
-            self.image_label.setPixmap(pixmap.scaled(self.image_label.size(), QtCore.Qt.KeepAspectRatio)) 
 
+        
+    
+    def upload_image_clicked(self):
+        upload_image_clicked(self)
+
+    def adjust_contrast(self): 
+        adjust_contrast(self)
+        
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
