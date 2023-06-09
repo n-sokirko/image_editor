@@ -1,6 +1,6 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PIL import Image
 from PyQt5.QtWidgets import QApplication, QStyleFactory
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QStyleFactory, QFileDialog, QHBoxLayout
@@ -13,4 +13,8 @@ def upload_image_clicked(self):
             selected_file = file_dialog.selectedFiles()[0]
             pixmap = QtGui.QPixmap(selected_file)
             self.image_label.setPixmap(pixmap.scaled(self.image_label.size(), QtCore.Qt.KeepAspectRatio))
-            self.original_image_label.setPixmap(pixmap.scaled(self.image_label.size(), QtCore.Qt.KeepAspectRatio))  
+            self.original_image_label.setPixmap(pixmap.scaled(self.image_label.size(), QtCore.Qt.KeepAspectRatio)) 
+            self.image_list.append(pixmap) 
+            self.current_image_index=0
+        
+        

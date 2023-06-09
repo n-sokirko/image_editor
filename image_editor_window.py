@@ -14,8 +14,10 @@ from PyQt5.QtWidgets import QApplication, QStyleFactory
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QStyleFactory, QFileDialog, QHBoxLayout
 from buttons_functionality.Upload_button import upload_image_clicked
+from buttons_functionality.Undo_button import undo_changes
 from sliders_functionality.Contrast_slider import adjust_contrast
-
+from sliders_functionality.Brightness_slider import adjust_brightness
+from sliders_functionality.Brightness_slider import add_image_to_list 
 
 
 class Ui_MainWindow(object):
@@ -25,8 +27,9 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet("background-color: rgb(90, 39, 86);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-
-
+        #added image list
+        self.image_list=[]
+        self.current_image_index=0
         self.image_layout = QtWidgets.QHBoxLayout()
         self.image_label = QtWidgets.QLabel(self.centralwidget)
         self.image_label.setObjectName("image_label")
@@ -34,6 +37,13 @@ class Ui_MainWindow(object):
         self.image_label.setAlignment(QtCore.Qt.AlignCenter)  
         self.image_label.setMaximumSize(800, 800)
         self.image_layout.addWidget(self.image_label)        
+
+        self.count_label = QtWidgets.QLabel(self.centralwidget)
+        self.count_label.setObjectName("count_label")
+        self.count_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.count_label.setStyleSheet("color: rgb(255, 255, 255);")
+        self.count_label.setText("Total Images: 0")
+        self.image_layout.addWidget(self.count_label)
 
         self.original_image_label = QtWidgets.QLabel(self.centralwidget)
         self.original_image_label.setObjectName("original_image_label")
@@ -51,6 +61,8 @@ class Ui_MainWindow(object):
         self.Brightness.setOrientation(QtCore.Qt.Horizontal)
         self.Brightness.setTickPosition(QtWidgets.QSlider.TicksBelow)
         self.Brightness.setObjectName("Brightness")
+        self.Brightness.valueChanged.connect(self.adjust_brightness)
+        self.Brightness.sliderReleased.connect(self.add_image_to_list)
 
         self.Blacknes = QtWidgets.QSlider(self.centralwidget)
         self.Blacknes.setGeometry(QtCore.QRect(30, 280, 191, 22))
@@ -67,6 +79,7 @@ class Ui_MainWindow(object):
         self.Contract.setTickPosition(QtWidgets.QSlider.TicksBelow)
         self.Contract.setObjectName("Contract")
         self.Contract.valueChanged.connect(self.adjust_contrast)
+        self.Contract.sliderReleased.connect(self.add_image_to_list)
 
         self.Blur = QtWidgets.QSlider(self.centralwidget)
         self.Blur.setGeometry(QtCore.QRect(30, 360, 191, 22))
@@ -83,6 +96,7 @@ class Ui_MainWindow(object):
         self.Undo_butt.setStyleSheet("color: rgb(255, 255, 255);\n"
 "font: 8pt \"Yu Gothic\";")
         self.Undo_butt.setObjectName("Undo_butt")
+        self.Undo_butt.clicked.connect(self.undo_changes)
 
         self.Remove_butt = QtWidgets.QPushButton(self.centralwidget)
         self.Remove_butt.setGeometry(QtCore.QRect(130, 190, 93, 28))
@@ -152,12 +166,15 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
-        
     
+    def add_image_to_list(self):
+        add_image_to_list(self)
+    def undo_changes(self):
+        undo_changes(self)    
+    def adjust_brightness(self):
+        adjust_brightness(self)
     def upload_image_clicked(self):
         upload_image_clicked(self)
-
     def adjust_contrast(self): 
         adjust_contrast(self)
         
