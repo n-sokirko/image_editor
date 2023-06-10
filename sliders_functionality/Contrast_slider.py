@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication, QStyleFactory, QFileDialog, QHBoxLayou
 
 
 def adjust_contrast(self):
-    value = self.Contract.value()
+    value = self.Contrast.value()
 
     pixmap = self.image_list[-1].copy()
     if pixmap is not None:
@@ -32,11 +32,3 @@ def adjust_contrast(self):
             scaled_pixmap = pixmap.scaled(width, height, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
 
             self.image_label.setPixmap(scaled_pixmap)
-
-def add_image_to_list(self):
-    self.image_list.append(self.image_label.pixmap().copy())
-    self.current_image_index += 1
-    self.count_label.setText(f"Total Images: {self.current_image_index}")
-    self.Brightness.setValue(50)
-    self.Contract.setValue(50)
-    self.Undo_butt.setEnabled(True)

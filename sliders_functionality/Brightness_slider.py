@@ -21,7 +21,7 @@ def adjust_brightness(self):
                 enhancer = ImageEnhance.Brightness(img)
                 factor = value / 50.0
                 enhanced_img = enhancer.enhance(factor)
-
+                
                 qimage = QtGui.QImage(enhanced_img.tobytes(), width, height, QtGui.QImage.Format_RGB888)
                 pixmap = QtGui.QPixmap.fromImage(qimage)
 
@@ -33,13 +33,7 @@ def adjust_brightness(self):
                 self.image_label.setPixmap(scaled_pixmap)
                 
 
-def add_image_to_list(self):
-    self.image_list.append(self.image_label.pixmap().copy())
-    self.current_image_index+=1         
-    self.count_label.setText(f"Total Images: {self.current_image_index}")
-    self.Brightness.setValue(50)
-    self.Contract.setValue(50)
-    self.Undo_butt.setEnabled(True)
+
 
 
 

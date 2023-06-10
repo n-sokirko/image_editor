@@ -17,7 +17,7 @@ from buttons_functionality.Upload_button import upload_image_clicked
 from buttons_functionality.Undo_button import undo_changes
 from sliders_functionality.Contrast_slider import adjust_contrast
 from sliders_functionality.Brightness_slider import adjust_brightness
-from sliders_functionality.Brightness_slider import add_image_to_list 
+from sliders_functionality.Add_image import add_image_to_list 
 
 
 class Ui_MainWindow(object):
@@ -31,6 +31,8 @@ class Ui_MainWindow(object):
         self.image_list=[]
         self.current_image_index=0
         self.image_layout = QtWidgets.QHBoxLayout()
+        
+
         self.image_label = QtWidgets.QLabel(self.centralwidget)
         self.image_label.setObjectName("image_label")
         self.image_label.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)  
@@ -63,34 +65,17 @@ class Ui_MainWindow(object):
         self.Brightness.setObjectName("Brightness")
         self.Brightness.valueChanged.connect(self.adjust_brightness)
         self.Brightness.sliderReleased.connect(self.add_image_to_list)
+    
 
-        self.Blacknes = QtWidgets.QSlider(self.centralwidget)
-        self.Blacknes.setGeometry(QtCore.QRect(30, 280, 191, 22))
-        self.Blacknes.setSliderPosition(50)
-        self.Blacknes.setOrientation(QtCore.Qt.Horizontal)
-        self.Blacknes.setTickPosition(QtWidgets.QSlider.TicksBelow)
-        self.Blacknes.setTickInterval(0)
-        self.Blacknes.setObjectName("Blacknes")
-
-        self.Contract = QtWidgets.QSlider(self.centralwidget)
-        self.Contract.setGeometry(QtCore.QRect(30, 320, 191, 22))
-        self.Contract.setSliderPosition(50)
-        self.Contract.setOrientation(QtCore.Qt.Horizontal)
-        self.Contract.setTickPosition(QtWidgets.QSlider.TicksBelow)
-        self.Contract.setObjectName("Contract")
-        self.Contract.valueChanged.connect(self.adjust_contrast)
-        self.Contract.sliderReleased.connect(self.add_image_to_list)
-
-        self.Blur = QtWidgets.QSlider(self.centralwidget)
-        self.Blur.setGeometry(QtCore.QRect(30, 360, 191, 22))
-        self.Blur.setSliderPosition(50)
-        self.Blur.setOrientation(QtCore.Qt.Horizontal)
-        self.Blur.setTickPosition(QtWidgets.QSlider.TicksBelow)
-        self.Blur.setObjectName("Blur")
-        
-
-        
-
+        self.Contrast = QtWidgets.QSlider(self.centralwidget)
+        self.Contrast.setGeometry(QtCore.QRect(30, 320, 191, 22))
+        self.Contrast.setSliderPosition(50)
+        self.Contrast.setOrientation(QtCore.Qt.Horizontal)
+        self.Contrast.setTickPosition(QtWidgets.QSlider.TicksBelow)
+        self.Contrast.setObjectName("Contract")
+        self.Contrast.valueChanged.connect(self.adjust_contrast)
+        self.Contrast.sliderReleased.connect(self.add_image_to_list)
+           
         self.Undo_butt = QtWidgets.QPushButton(self.centralwidget)
         self.Undo_butt.setGeometry(QtCore.QRect(20, 190, 93, 28))
         self.Undo_butt.setStyleSheet("color: rgb(255, 255, 255);\n"
@@ -124,33 +109,36 @@ class Ui_MainWindow(object):
         self.Upload_butt.clicked.connect(self.upload_image_clicked)
 
         self.Brightness_label = QtWidgets.QLabel("Brightness", self.centralwidget)
-        self.Blacknes_label = QtWidgets.QLabel("Blacknes", self.centralwidget)
-        self.Contract_label = QtWidgets.QLabel("Contract", self.centralwidget)
-        self.Blur_label = QtWidgets.QLabel("Blur", self.centralwidget)
+        self.Contrast_label = QtWidgets.QLabel("Contrast", self.centralwidget)
         
+        self.Instrument_crop = QtWidgets.QPushButton(self.centralwidget)
+        self.Instrument_crop.setGeometry(QtCore.QRect(20, 190, 93, 28))
+        self.Instrument_crop.setStyleSheet("color: rgb(255, 255, 255);\n"
+"font: 8pt \"Yu Gothic\";")
+        self.Instrument_crop.setObjectName("Undo_butt")
 
+        #buttons layout
         self.buttons_layout = QHBoxLayout()
-        
         self.buttons_layout.addWidget(self.Upload_butt)
         self.buttons_layout.addWidget(self.Undo_butt)
         self.buttons_layout.addWidget(self.Save_butt)
         self.buttons_layout.addWidget(self.Saveas_butt)
         self.buttons_layout.addWidget(self.Remove_butt)
-        self.buttons_layout.addWidget(self.Blacknes_label)
-        self.buttons_layout.addWidget(self.Blacknes)
         self.buttons_layout.addWidget(self.Brightness_label)
         self.buttons_layout.addWidget(self.Brightness)
-        self.buttons_layout.addWidget(self.Contract_label)
-        self.buttons_layout.addWidget(self.Contract)
-        self.buttons_layout.addWidget(self.Blur_label)
-        self.buttons_layout.addWidget(self.Blur)
-
+        self.buttons_layout.addWidget(self.Contrast_label)
+        self.buttons_layout.addWidget(self.Contrast)
+      
+         #instruments layout
+        self.instruments_layout= QHBoxLayout() 
+        self.instruments_layout.addWidget(self.Instrument_crop)
 
 
 
         self.main_layout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.main_layout.addLayout(self.buttons_layout)
         self.main_layout.addLayout(self.image_layout)
+        self.main_layout.addLayout(self.instruments_layout)
         
        
 
@@ -162,11 +150,10 @@ class Ui_MainWindow(object):
         QApplication.setStyle(QStyleFactory.create('Fusion'))
         app.setStyleSheet(slider_style)
         self.image_label.setPixmap(QtGui.QPixmap())
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    
+
     def add_image_to_list(self):
         add_image_to_list(self)
     def undo_changes(self):
@@ -186,6 +173,7 @@ class Ui_MainWindow(object):
         self.Save_butt.setText(_translate("MainWindow", "Save Image"))
         self.Saveas_butt.setText(_translate("MainWindow", "Save As"))
         self.Upload_butt.setText(_translate("MainWindow", "Upload Image"))
+        self.Instrument_crop.setText(_translate("Main Window","Crop"))
    
 
 
