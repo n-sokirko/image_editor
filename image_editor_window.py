@@ -17,7 +17,8 @@ from buttons_functionality.Upload_button import upload_image_clicked
 from buttons_functionality.Undo_button import undo_changes
 from sliders_functionality.Contrast_slider import adjust_contrast
 from sliders_functionality.Brightness_slider import adjust_brightness
-from sliders_functionality.Add_image import add_image_to_list 
+from image_to_list import add_image_to_list 
+from instruments_functionality.crop import crop_image
 
 
 class Ui_MainWindow(object):
@@ -116,6 +117,7 @@ class Ui_MainWindow(object):
         self.Instrument_crop.setStyleSheet("color: rgb(255, 255, 255);\n"
 "font: 8pt \"Yu Gothic\";")
         self.Instrument_crop.setObjectName("Undo_butt")
+        self.Instrument_crop.clicked.connect(self.crop_image)
 
         #buttons layout
         self.buttons_layout = QHBoxLayout()
@@ -153,7 +155,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
+    def crop_image(self):
+        crop_image(self)
     def add_image_to_list(self):
         add_image_to_list(self)
     def undo_changes(self):
