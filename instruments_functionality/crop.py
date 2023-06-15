@@ -1,12 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from image_to_list import add_image_to_list
 
+
 def crop_image(self):
-        dialog = CropImageDialog(self.image_label.pixmap())
-        if dialog.exec_():
-            cropped_image = dialog.get_cropped_image()
-            self.image_label.setPixmap(cropped_image)
-            add_image_to_list(self)
+    dialog = CropImageDialog(self.image_label.pixmap())
+    if dialog.exec_():
+        cropped_image = dialog.get_cropped_image()
+        self.image_label.setPixmap(cropped_image)
+        add_image_to_list(self)
 
 
 class CropImageDialog(QtWidgets.QDialog):
@@ -15,7 +16,6 @@ class CropImageDialog(QtWidgets.QDialog):
 
         self.image = image
         self.crop_rect = QtCore.QRect()
-        self.setFixedSize(600, 600)
 
         self.init_ui()
 
@@ -28,7 +28,9 @@ class CropImageDialog(QtWidgets.QDialog):
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setScaledContents(True)
 
-        self.selection_rect = QtWidgets.QRubberBand(QtWidgets.QRubberBand.Rectangle, self)
+        self.selection_rect = QtWidgets.QRubberBand(
+            QtWidgets.QRubberBand.Rectangle, self
+        )
         self.selection_rect.setGeometry(self.crop_rect)
 
     def mousePressEvent(self, event):
@@ -39,7 +41,9 @@ class CropImageDialog(QtWidgets.QDialog):
 
     def mouseMoveEvent(self, event):
         if self.origin:
-            self.selection_rect.setGeometry(QtCore.QRect(self.origin, event.pos()).normalized())
+            self.selection_rect.setGeometry(
+                QtCore.QRect(self.origin, event.pos()).normalized()
+            )
 
     def mouseReleaseEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton:
@@ -50,5 +54,3 @@ class CropImageDialog(QtWidgets.QDialog):
     def get_cropped_image(self):
         cropped_image = self.image.copy(self.crop_rect)
         return cropped_image
-
-

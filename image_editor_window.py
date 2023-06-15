@@ -20,6 +20,7 @@ from sliders_functionality.Brightness_slider import adjust_brightness
 from sliders_functionality.Blackness_slider import adjust_blackness
 from image_to_list import add_image_to_list
 from instruments_functionality.crop import crop_image
+from instruments_functionality.draw import draw_image
 
 
 class Ui_MainWindow(object):
@@ -136,8 +137,16 @@ class Ui_MainWindow(object):
         self.Instrument_crop.setStyleSheet(
             "color: rgb(255, 255, 255);\n" 'font: 8pt "Yu Gothic";'
         )
-        self.Instrument_crop.setObjectName("Undo_butt")
+        self.Instrument_crop.setObjectName("crop_butt")
         self.Instrument_crop.clicked.connect(self.crop_image)
+
+        self.Instrument_draw = QtWidgets.QPushButton(self.centralwidget)
+        self.Instrument_draw.setGeometry(QtCore.QRect(20, 190, 93, 28))
+        self.Instrument_draw.setStyleSheet(
+            "color: rgb(255, 255, 255);\n" 'font: 8pt "Yu Gothic";'
+        )
+        self.Instrument_draw.setObjectName("draw_butt")
+        self.Instrument_draw.clicked.connect(self.draw_image)
 
         # buttons layout
         self.buttons_layout = QHBoxLayout()
@@ -156,6 +165,7 @@ class Ui_MainWindow(object):
         self.instruments_layout.addWidget(self.Contrast)
         self.instruments_layout.addWidget(self.Blackness_label)
         self.instruments_layout.addWidget(self.Blackness)
+        self.instruments_layout.addWidget(self.Instrument_draw)
 
         self.main_layout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.main_layout.addLayout(self.buttons_layout)
@@ -173,6 +183,9 @@ class Ui_MainWindow(object):
         self.image_label.setPixmap(QtGui.QPixmap())
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def draw_image(self):
+        draw_image(self)
 
     def crop_image(self):
         crop_image(self)
@@ -204,6 +217,7 @@ class Ui_MainWindow(object):
         self.Saveas_butt.setText(_translate("MainWindow", "Save As"))
         self.Upload_butt.setText(_translate("MainWindow", "Upload Image"))
         self.Instrument_crop.setText(_translate("Main Window", "Crop"))
+        self.Instrument_draw.setText(_translate("Main Window", "Draw"))
 
 
 if __name__ == "__main__":
