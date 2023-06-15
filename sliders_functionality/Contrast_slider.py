@@ -23,12 +23,16 @@ def adjust_contrast(self):
             factor = value / 50.0
             enhanced_img = enhancer.enhance(factor)
 
-            qimage = QtGui.QImage(enhanced_img.tobytes(), width, height, QtGui.QImage.Format_RGB888)
+            qimage = QtGui.QImage(
+                enhanced_img.tobytes(), width, height, QtGui.QImage.Format_RGB888
+            )
             pixmap = QtGui.QPixmap.fromImage(qimage)
 
             original_pixmap = self.image_list[0]
             width = original_pixmap.width()
             height = original_pixmap.height()
-            scaled_pixmap = pixmap.scaled(width, height, QtCore.Qt.AspectRatioMode.KeepAspectRatio)
+            scaled_pixmap = pixmap.scaled(
+                width, height, QtCore.Qt.AspectRatioMode.KeepAspectRatio
+            )
 
             self.image_label.setPixmap(scaled_pixmap)

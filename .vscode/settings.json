@@ -1,0 +1,10 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.formatting.provider": "none",
+  "C_Cpp.errorSquiggles": "disabled",
+  "files.associations": {
+    "npy_common.h": "c"
+  }
+}

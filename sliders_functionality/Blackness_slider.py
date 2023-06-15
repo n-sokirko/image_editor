@@ -1,0 +1,52 @@
+from PIL import Image, ImageEnhance
+from PyQt5 import QtCore, QtGui, QtWidgets
+import os
+from PyQt5.QtWidgets import QApplication, QStyleFactory
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QStyleFactory, QFileDialog, QHBoxLayout
+import image_processing
+import numpy as np
+
+
+def adjust_blackness(self):
+    value = self.Blackness.value()
+    threshold = 100
+
+    pixmap = self.image_list[-1].copy()
+    if pixmap is not None and value != 50:
+        image = pixmap.toImage()
+        if not image.isNull():
+            image = image.convertToFormat(QtGui.QImage.Format_RGB888)
+            print(image.width(), " ", image.height())
+            width = image.width()
+            height = image.height()
+            data = image.bits().asstring(image.byteCount())
+            print(width, height)
+            img = Image.frombytes("RGB", (width, height), data)
+
+            # Преобразование изображения в массив numpy
+            image_array = np.array(img.copy())
+
+            # Вызов функции adjust_blackness из image_processing
+
+            image_processing.adjust_blackness(image_array, threshold, value)
+
+            # Преобразование массива numpy обратно в изображение PIL
+            enhanced_img = Image.fromarray(image_array)
+
+            qimage = QtGui.QImage(
+                enhanced_img.tobytes(), width, height, QtGui.QImage.Format_RGB888
+            )
+            pixmap = QtGui.QPixmap.fromImage(qimage)
+
+            original_pixmap = self.image_list[0]
+            width = original_pixmap.width()
+            height = original_pixmap.height()
+            scaled_pixmap = pixmap.scaled(
+                width, height, QtCore.Qt.AspectRatioMode.KeepAspectRatio
+            )
+            scaled_pixmap = pixmap.scaled(
+                width, height, QtCore.Qt.AspectRatioMode.KeepAspectRatio
+            )
+
+            self.image_label.setPixmap(scaled_pixmap)
