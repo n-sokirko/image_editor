@@ -15,6 +15,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QStyleFactory, QFileDialog, QHBoxLayout
 from buttons_functionality.Upload_button import upload_image_clicked
 from buttons_functionality.Undo_button import undo_changes
+from buttons_functionality.Save_button import save_image
+from buttons_functionality.Saveas_button import save_image_as
+from buttons_functionality.Show_button import show_original_image
 from sliders_functionality.Contrast_slider import adjust_contrast
 from sliders_functionality.Brightness_slider import adjust_brightness
 from sliders_functionality.Blackness_slider import adjust_blackness
@@ -34,6 +37,7 @@ class Ui_MainWindow(object):
         self.image_list = []
         self.current_image_index = 0
         self.image_layout = QtWidgets.QHBoxLayout()
+        self.file_path = ""
 
         self.image_label = QtWidgets.QLabel(self.centralwidget)
         self.image_label.setObjectName("image_label")
@@ -99,12 +103,13 @@ class Ui_MainWindow(object):
         self.Undo_butt.setObjectName("Undo_butt")
         self.Undo_butt.clicked.connect(self.undo_changes)
 
-        self.Remove_butt = QtWidgets.QPushButton(self.centralwidget)
-        self.Remove_butt.setGeometry(QtCore.QRect(130, 190, 93, 28))
-        self.Remove_butt.setStyleSheet(
+        self.Show_butt = QtWidgets.QPushButton(self.centralwidget)
+        self.Show_butt.setGeometry(QtCore.QRect(130, 190, 93, 28))
+        self.Show_butt.setStyleSheet(
             "color: rgb(255, 255, 255);\n" 'font: 8pt "Yu Gothic";'
         )
-        self.Remove_butt.setObjectName("Remove_butt")
+        self.Show_butt.setObjectName("Show_butt")
+        self.Show_butt.clicked.connect(self.show_original_image)
 
         self.Save_butt = QtWidgets.QPushButton(self.centralwidget)
         self.Save_butt.setGeometry(QtCore.QRect(20, 150, 201, 28))
@@ -112,14 +117,14 @@ class Ui_MainWindow(object):
             "color: rgb(255, 255, 255);\n" 'font: 8pt "Yu Gothic";'
         )
         self.Save_butt.setObjectName("Save_butt")
-
+        self.Save_butt.clicked.connect(self.save_image)
         self.Saveas_butt = QtWidgets.QPushButton(self.centralwidget)
         self.Saveas_butt.setGeometry(QtCore.QRect(20, 110, 201, 28))
         self.Saveas_butt.setStyleSheet(
             "color: rgb(255, 255, 255);\n" 'font: 8pt "Yu Gothic";'
         )
         self.Saveas_butt.setObjectName("Saveas_butt")
-
+        self.Saveas_butt.clicked.connect(self.save_image_as)
         self.Upload_butt = QtWidgets.QPushButton(self.centralwidget)
         self.Upload_butt.setGeometry(QtCore.QRect(20, 70, 201, 28))
         self.Upload_butt.setStyleSheet(
@@ -154,19 +159,19 @@ class Ui_MainWindow(object):
         self.buttons_layout.addWidget(self.Undo_butt)
         self.buttons_layout.addWidget(self.Save_butt)
         self.buttons_layout.addWidget(self.Saveas_butt)
-        self.buttons_layout.addWidget(self.Remove_butt)
+        self.buttons_layout.addWidget(self.Show_butt)
 
         # instruments layout
         self.instruments_layout = QHBoxLayout()
+
         self.instruments_layout.addWidget(self.Instrument_crop)
+        self.instruments_layout.addWidget(self.Instrument_draw)
         self.instruments_layout.addWidget(self.Brightness_label)
         self.instruments_layout.addWidget(self.Brightness)
         self.instruments_layout.addWidget(self.Contrast_label)
         self.instruments_layout.addWidget(self.Contrast)
         self.instruments_layout.addWidget(self.Blackness_label)
         self.instruments_layout.addWidget(self.Blackness)
-        self.instruments_layout.addWidget(self.Instrument_draw)
-
         self.main_layout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.main_layout.addLayout(self.buttons_layout)
         self.main_layout.addLayout(self.image_layout)
@@ -184,8 +189,17 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def save_image(self):
+        save_image(self)
+
+    def save_image_as(self):
+        save_image_as(self)
+
     def draw_image(self):
         draw_image(self)
+
+    def show_original_image(self):
+        show_original_image(self)
 
     def crop_image(self):
         crop_image(self)
@@ -212,9 +226,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.Undo_butt.setText(_translate("MainWindow", "Undo"))
-        self.Remove_butt.setText(_translate("MainWindow", "Remove"))
+        self.Show_butt.setText(_translate("MainWindow", "Show"))
         self.Save_butt.setText(_translate("MainWindow", "Save Image"))
-        self.Saveas_butt.setText(_translate("MainWindow", "Save As"))
+        self.Saveas_butt.setText(_translate("MainWindow", "Save Image As"))
         self.Upload_butt.setText(_translate("MainWindow", "Upload Image"))
         self.Instrument_crop.setText(_translate("Main Window", "Crop"))
         self.Instrument_draw.setText(_translate("Main Window", "Draw"))

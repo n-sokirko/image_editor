@@ -24,7 +24,7 @@ class MyImageEditorDialog(QDialog):
         self.current_image = QPixmap(image)
         self.temp_image = self.current_image.copy()
         self.painting = False
-
+        self.pen_color = QColor(Qt.black)
         self.image_label.setPixmap(self.current_image)
         self.init_ui()
 
@@ -33,7 +33,6 @@ class MyImageEditorDialog(QDialog):
         self.image_label.setGeometry(QtCore.QRect(0, 0, 600, 600))
         self.image_label.setAlignment(QtCore.Qt.AlignCenter)
         self.image_label.setScaledContents(True)
-
         layout = QVBoxLayout()
         layout.addWidget(self.image_label)
 

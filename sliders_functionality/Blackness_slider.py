@@ -24,14 +24,10 @@ def adjust_blackness(self):
             print(width, height)
             img = Image.frombytes("RGB", (width, height), data)
 
-            # Преобразование изображения в массив numpy
             image_array = np.array(img.copy())
-
-            # Вызов функции adjust_blackness из image_processing
 
             image_processing.adjust_blackness(image_array, threshold, value)
 
-            # Преобразование массива numpy обратно в изображение PIL
             enhanced_img = Image.fromarray(image_array)
 
             qimage = QtGui.QImage(
