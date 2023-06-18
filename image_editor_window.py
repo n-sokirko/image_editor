@@ -18,12 +18,15 @@ from buttons_functionality.Undo_button import undo_changes
 from buttons_functionality.Save_button import save_image
 from buttons_functionality.Saveas_button import save_image_as
 from buttons_functionality.Show_button import show_original_image
+from buttons_functionality.Left_rotate_butt import rotate_image_left
+from buttons_functionality.Right_rotate_butt import rotate_image_right
 from sliders_functionality.Contrast_slider import adjust_contrast
 from sliders_functionality.Brightness_slider import adjust_brightness
 from sliders_functionality.Blackness_slider import adjust_blackness
 from image_to_list import add_image_to_list
 from instruments_functionality.crop import crop_image
 from instruments_functionality.draw import draw_image
+from PyQt5.QtWidgets import QApplication, QMainWindow, QToolBar, QAction, QFileDialog
 
 
 class Ui_MainWindow(object):
@@ -101,7 +104,24 @@ class Ui_MainWindow(object):
             "color: rgb(255, 255, 255);\n" 'font: 8pt "Yu Gothic";'
         )
         self.Undo_butt.setObjectName("Undo_butt")
+
         self.Undo_butt.clicked.connect(self.undo_changes)
+
+        self.Left_rotate_butt = QtWidgets.QPushButton(self.centralwidget)
+        self.Left_rotate_butt.setGeometry(QtCore.QRect(20, 190, 93, 28))
+        self.Left_rotate_butt.setStyleSheet(
+            "color: rgb(255, 255, 255);\n" 'font: 8pt "Yu Gothic";'
+        )
+        self.Left_rotate_butt.setObjectName("Undo_butt")
+        self.Left_rotate_butt.clicked.connect(self.rotate_image_left)
+
+        self.Right_rotate_butt = QtWidgets.QPushButton(self.centralwidget)
+        self.Right_rotate_butt.setGeometry(QtCore.QRect(20, 190, 93, 28))
+        self.Right_rotate_butt.setStyleSheet(
+            "color: rgb(255, 255, 255);\n" 'font: 8pt "Yu Gothic";'
+        )
+        self.Right_rotate_butt.setObjectName("Undo_butt")
+        self.Right_rotate_butt.clicked.connect(self.rotate_image_right)
 
         self.Show_butt = QtWidgets.QPushButton(self.centralwidget)
         self.Show_butt.setGeometry(QtCore.QRect(130, 190, 93, 28))
@@ -156,7 +176,6 @@ class Ui_MainWindow(object):
         # buttons layout
         self.buttons_layout = QHBoxLayout()
         self.buttons_layout.addWidget(self.Upload_butt)
-        self.buttons_layout.addWidget(self.Undo_butt)
         self.buttons_layout.addWidget(self.Save_butt)
         self.buttons_layout.addWidget(self.Saveas_butt)
         self.buttons_layout.addWidget(self.Show_butt)
@@ -165,17 +184,24 @@ class Ui_MainWindow(object):
         self.instruments_layout = QHBoxLayout()
 
         self.instruments_layout.addWidget(self.Instrument_crop)
+        self.instruments_layout.addWidget(self.Undo_butt)
         self.instruments_layout.addWidget(self.Instrument_draw)
-        self.instruments_layout.addWidget(self.Brightness_label)
-        self.instruments_layout.addWidget(self.Brightness)
-        self.instruments_layout.addWidget(self.Contrast_label)
-        self.instruments_layout.addWidget(self.Contrast)
-        self.instruments_layout.addWidget(self.Blackness_label)
-        self.instruments_layout.addWidget(self.Blackness)
+        self.instruments_layout.addWidget(self.Left_rotate_butt)
+        self.instruments_layout.addWidget(self.Right_rotate_butt)
+
+        self.instruments_layout_sliders = QHBoxLayout()
+        self.instruments_layout_sliders.addWidget(self.Brightness_label)
+        self.instruments_layout_sliders.addWidget(self.Brightness)
+        self.instruments_layout_sliders.addWidget(self.Contrast_label)
+        self.instruments_layout_sliders.addWidget(self.Contrast)
+        self.instruments_layout_sliders.addWidget(self.Blackness_label)
+        self.instruments_layout_sliders.addWidget(self.Blackness)
+
         self.main_layout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.main_layout.addLayout(self.buttons_layout)
         self.main_layout.addLayout(self.image_layout)
         self.main_layout.addLayout(self.instruments_layout)
+        self.main_layout.addLayout(self.instruments_layout_sliders)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -222,6 +248,12 @@ class Ui_MainWindow(object):
     def adjust_contrast(self):
         adjust_contrast(self)
 
+    def rotate_image_left(self):
+        rotate_image_left(self)
+
+    def rotate_image_right(self):
+        rotate_image_right(self)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -230,8 +262,10 @@ class Ui_MainWindow(object):
         self.Save_butt.setText(_translate("MainWindow", "Save Image"))
         self.Saveas_butt.setText(_translate("MainWindow", "Save Image As"))
         self.Upload_butt.setText(_translate("MainWindow", "Upload Image"))
-        self.Instrument_crop.setText(_translate("Main Window", "Crop"))
-        self.Instrument_draw.setText(_translate("Main Window", "Draw"))
+        self.Instrument_crop.setText(_translate("MainWindow", "Crop"))
+        self.Instrument_draw.setText(_translate("MainWindow", "Draw"))
+        self.Left_rotate_butt.setText(_translate("MainWindow", "Left rotate"))
+        self.Right_rotate_butt.setText(_translate("MainWindow", "Right rotate"))
 
 
 if __name__ == "__main__":

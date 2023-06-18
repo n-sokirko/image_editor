@@ -17,11 +17,9 @@ def adjust_blackness(self):
         image = pixmap.toImage()
         if not image.isNull():
             image = image.convertToFormat(QtGui.QImage.Format_RGB888)
-            print(image.width(), " ", image.height())
             width = image.width()
             height = image.height()
             data = image.bits().asstring(image.byteCount())
-            print(width, height)
             img = Image.frombytes("RGB", (width, height), data)
 
             image_array = np.array(img.copy())

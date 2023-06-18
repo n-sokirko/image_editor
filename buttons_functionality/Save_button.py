@@ -14,5 +14,3 @@ def save_image(self):
         image.save(self.file_path)
         pixmap = QtGui.QPixmap(selected_image)
         self.original_image_label.setPixmap(pixmap)
-    else:
-        self.save_image_as()
